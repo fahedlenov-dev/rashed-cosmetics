@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الراشد كوزمتكس | Al-Rashed Cosmetics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #1a0003; 
+            --primary: #4a000d; 
+            --gold: #d4af37; 
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary), #2a0005);
+            background-size: 200% 200%;
+            animation: gradientBG 10s ease infinite;
+            color: var(--white);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* حركة الخلفية */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ذرات ذهبية متصاعدة */
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(212, 175, 55, 0.4);
+            border-radius: 50%;
+            animation: floatUp 8s infinite linear;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* شريط إخباري متحرك نابض */
+        .marquee-container {
+            background: var(--gold);
+            color: var(--primary-dark);
+            padding: 8px 0;
+            font-weight: 900;
+            font-size: 1.1em;
+            overflow: hidden;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+        .marquee-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* الهيدر واللوجو */
+        header {
+            text-align: center;
+            padding: 40px 20px 30px;
+            position: relative;
+            z-index: 10;
+            background: rgba(26, 0, 3, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+        .logo-img {
+            max-width: 180px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0px 0px 20px rgba(212, 175, 55, 0.6));
+            animation: heartbeat 2s infinite alternate;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .discount-strip {
+            background: linear-gradient(90deg, #b58d22, #d4af37, #b58d22);
+            color: var(--primary-dark);
+            padding: 10px 25px;
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            border-radius: 30px;
+            display: inline-block;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+            animation: pulse-strip 1.5s infinite alternate;
+        }
+        @keyframes pulse-strip {
+            0% { transform: scale(1) translateY(0); }
+            100% { transform: scale(1.03) translateY(-3px); }
+        }
+
+        /* شبكة المنتجات */
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            color: #333;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 2px solid transparent;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(80px) scale(0.9);
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .product-card.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(212, 175, 55, 0.6);
+            border-color: var(--gold);
+        }
+
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.1) rotate(2deg);
+        }
+        .badge {
+            position: absolute;
+            top: 25px;
+            right: -35px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 5px 45px;
+            transform: rotate(45deg);
+            font-weight: bold;
+            font-size: 1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 2;
+        }
+
+        .product-info {
+            padding: 25px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-title {
+            font-size: 1.5em;
+            color: var(--primary);
+            font-weight: 900;
+            margin: 0 0 15px;
+            border-bottom: 2px dashed #ddd;
+            padding-bottom: 10px;
+        }
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px 0;
+            flex-grow: 1;
+        }
+        .features-list li {
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            line-height: 1.6;
+        }
+        .features-list li::before {
+            content: "✨";
+            margin-left: 8px;
+            font-size: 1.2em;
+            color: var(--gold);
+        }
+
+        /* الأزرار */
+        .whatsapp-btn {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 1.2em;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+        .whatsapp-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
+        .whatsapp-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.6);
+        }
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #25D366;
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 35px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.6);
+            z-index: 1000;
+            animation: bounce-wa 2s infinite;
+        }
+        @keyframes bounce-wa {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* الفوتر */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 10;
+            border-top: 4px solid var(--gold);
+            margin-top: 60px;
+        }
+        .branch-info {
+            font-size: 1.4em;
+            color: var(--gold);
+            font-weight: 900;
+            margin-bottom: 15px;
+            line-height: 1.8;
+            animation: glow-text 2s infinite alternate;
+        }
+        @keyframes glow-text {
+            0% { text-shadow: 0 0 5px var(--gold); }
+            100% { text-shadow: 0 0 20px var(--gold); }
+        }
+        .branch-info span {
+            color: white;
+            display: block;
+            font-size: 1.1em;
+            margin-top: 5px;
+        }
+        .copyright {
+            color: #aaa;
+            font-size: 1.1em;
+            margin-top: 25px;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            ✨ ترقبوا الموقع يومياً لتروا جديد الراشد كوزمتكس ✨ خصومات تصل لـ 10% على أفخم الماركات ✨ زوروا فرعنا في طبربور ✨
+        </div>
+    </div>
+
+    <header>
+        <img src="https://i.ibb.co/hJ6TpQJ7/IMG-4988.png" alt="الراشد كوزمتكس" class="logo-img">
+        <br>
+        <div class="discount-strip">
+            🔥 عرض خاص: خصومات تصل لـ 10% لفترة محدودة 🔥
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/8LMqvyV6/IMG-5120.jpg" alt="تايلامي كريم أساس" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">تايلامي كريم أساس مصحح اللون</h2>
+                <ul class="features-list">
+                    <li>يغير لونه ليتناسب تماماً مع لون بشرتك الفريدة.</li>
+                    <li>حماية فائقة من الشمس طوال اليوم.</li>
+                    <li>يعطي مظهراً طبيعياً، مشرقاً، ومتألقاً.</li>
+                    <li>تركيبة Ydra-Lumi لترطيب عميق للبشرة.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: تايلامي كريم أساس" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/whmbC017/IMG-5122.jpg" alt="بودرة جابريني" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">بودرة جابريني المهنية غير اللامعة (مات)</h2>
+                <ul class="features-list">
+                    <li>لمسة مخملية مثالية غير لامعة.</li>
+                    <li>تغطية متساوية وخفيفة لا تسد مسام البشرة.</li>
+                    <li>تخفي العيوب، التصبغات، والخطوط الدقيقة.</li>
+                    <li>متوفرة بدرجات ألوان متعددة لتناسب الجميع.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: بودرة جابريني" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/Fk1BFGJ9/IMG-5115.jpg" alt="بخاخ تثبيت 3Q" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">بخاخ التثبيت واللمعان الفوري 3Q</h2>
+                <ul class="features-list">
+                    <li>تثبيت قوي للمكياج يجعله يدوم طوال اليوم.</li>
+                    <li>يمنح البشرة لمعاناً فورياً متألقاً وجذاباً.</li>
+                    <li>تقنية الرذاذ الدقيق (Micromist) لتوزيع مثالي.</li>
+                    <li>تغطية متجانسة وخفيفة ومنعشة للبشرة.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: بخاخ التثبيت 3Q" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/nM798vhf/IMG-5116.jpg" alt="كريم أساس جابريني" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">كريم أساس احترافي غير لامع جابريني</h2>
+                <ul class="features-list">
+                    <li>تغطية كاملة وشاملة تدوم لساعات طويلة.</li>
+                    <li>يمنحك مظهراً غير لامع (مات) واحترافي.</li>
+                    <li>درجة بورسلين موحدة تندمج مع لون البشرة.</li>
+                    <li>تركيبة HD خفيفة تمنع تكتل المكياج.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: كريم أساس جابريني" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/tpbHhZ6P/IMG-5113.jpg" alt="فاونديشن كاريتي" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">فاونديشن كاريتي (Karité) تغطية كاملة</h2>
+                <ul class="features-list">
+                    <li>تغطية كاملة تخفي كافة عيوب البشرة.</li>
+                    <li>ثبات عالي الجودة يدوم لفترات طويلة.</li>
+                    <li>يمنح البشرة مظهراً ناعماً، موحداً، وخالياً من الشوائب.</li>
+                    <li>حجم عملي ومناسب للاستخدام اليومي (35 مل).</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: فاونديشن كاريتي" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/hxDzMd0n/IMG-5114.jpg" alt="سيروم ليدي دول" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">سيروم النضارة والشباب Lady Doll</h2>
+                <ul class="features-list">
+                    <li>يعمل بقوة على تعزيز توحيد لون البشرة وتفتيحها.</li>
+                    <li>غني بفيتامين B3 لتحسين مرونة البشرة وشدها.</li>
+                    <li>يمنح نتائج مرئية فورية وإشراقة لا مثيل لها.</li>
+                    <li>يعزز تجانس البشرة ويحارب علامات الإرهاق.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: سيروم ليدي دول" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/v6Y9NBHZ/IMG-4979.png" alt="لوشن الجسم يارا" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">لوشن الجسم المعطر يارا (Yara)</h2>
+                <ul class="features-list">
+                    <li>رائحة عطر يارا الأنثوية الساحرة والشهيرة.</li>
+                    <li>يوفر ترطيباً عميقاً ونعومة حريرية للجسم.</li>
+                    <li>سريع الامتصاص ولا يترك أي أثر دهني.</li>
+                    <li>يترك بشرتك منتعشة، حيوية، وعطرة طوال اليوم.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: لوشن الجسم يارا" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/1YgN18mT/IMG-4981.png" alt="مجموعة أرواج" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">مجموعة أرواج وملمع شفاه فاخرة</h2>
+                <ul class="features-list">
+                    <li>ألوان مطفية (مات) عصرية وجذابة تناسب كل الأوقات.</li>
+                    <li>ثبات فائق بتقنية 4D يدوم لساعات طويلة.</li>
+                    <li>تركيبة مرطبة تمنع جفاف أو تشقق الشفاه.</li>
+                    <li>تغطية لونية غنية ومخملية من تمريرة واحدة.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: مجموعة الأرواج" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+        <div class="product-card">
+            <div class="img-wrapper">
+                <div class="badge">خصم 10%</div>
+                <img src="https://i.ibb.co/q3fWzfYg/IMG-4977.png" alt="عطر Red Night" class="product-image">
+            </div>
+            <div class="product-info">
+                <h2 class="product-title">عطر Red Night الساحر</h2>
+                <ul class="features-list">
+                    <li>رائحة فخمة، جذابة، تخطف الأنظار أينما كنتِ.</li>
+                    <li>ثبات عالي وتركيز قوي يدوم طويلاً.</li>
+                    <li>تصميم زجاجة فريد ومميز مغطى بالفرو الأحمر الأنيق.</li>
+                    <li>الخيار الأول والمثالي للسهرات والمناسبات الخاصة.</li>
+                </ul>
+                <a href="https://wa.me/962780202998?text=مرحباً، للطلب والاستفسار عن: عطر Red Night" class="whatsapp-btn" target="_blank">📱 للطلب والاستفسار</a>
+            </div>
+        </div>
+
+    </div>
+
+    <a href="https://wa.me/962780202998" class="floating-wa" target="_blank">💬</a>
+
+    <footer>
+        <div class="branch-info">
+            📍 زورو فرعنا الرئيسي والوحيد:
+            <span>عمان - طبربور - حي الشهيد الجنوبي</span>
+        </div>
+        <div class="copyright">
+            © 2026 الراشد كوزمتكس. جميع الحقوق محفوظة.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.product-card');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.1, 
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            cards.forEach((card, index) => {
+                card.style.transitionDelay = `${(index % 3) * 0.15}s`;
+                observer.observe(card);
+            });
+
+            const particlesContainer = document.getElementById('particles');
+            for(let i=0; i<30; i++) {
+                let particle = document.createElement('div');
+                particle.className = 'particle';
+                let size = Math.random() * 8 + 4;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDuration = Math.random() * 10 + 5 + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
